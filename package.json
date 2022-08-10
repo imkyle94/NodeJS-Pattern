@@ -1,7 +1,7 @@
 {
   "name": "nodejs-pattern",
   "version": "1.0.0",
-  "description": "",
+  "description": "노드 개발 패턴",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,10 +10,31 @@
     "type": "git",
     "url": "git+https://github.com/imkyle94/NodeJS-Pattern.git"
   },
-  "author": "",
+  "author": "Kyle",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/imkyle94/NodeJS-Pattern/issues"
   },
-  "homepage": "https://github.com/imkyle94/NodeJS-Pattern#readme"
+  "homepage": "https://github.com/imkyle94/NodeJS-Pattern#readme",
+  "type": "module",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "ejs": "^3.1.8",
+    "email-validator": "^2.0.4",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "http-errors": "^2.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mariadb": "^3.0.1",
+    "mongoose": "^6.5.1",
+    "morgan": "^1.10.0",
+    "node-jose": "^2.1.1",
+    "sequelize": "^6.21.3",
+    "sequelize-cli": "^6.4.1",
+    "swagger-ui-express": "^4.5.0",
+    "winston": "^3.8.1",
+    "winston-daily-rotate-file": "^4.7.1"
+  }
 }
