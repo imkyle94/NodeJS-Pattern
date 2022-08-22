@@ -1,0 +1,67 @@
+// http://localhost:3000/admin/reported
+// /admin/fetchRecentReport
+{
+  "status": "success",
+  "message": {
+    "isSuccess": true,
+    "data": [
+      {
+        "_id": 3,
+        "reportNumber": "3",
+        "reporterName": "Alex",
+        "carNumber": "3다2345",
+        "detectionDate": "2022-08-10",
+        "processingStatus": 0,
+        "transactionId": "추후 수정",
+        "registrationDate": "2022-08-14"
+      },
+      {
+        "_id": 2,
+        "reportNumber": "2",
+        "reporterName": "Kyle",
+        "carNumber": "2나5678",
+        "detectionDate": "2022-08-13",
+        "processingStatus": 0,
+        "location": "서울시 마포구",
+        "transactiond": "추후 수정",
+        "registrationDate": "2022-08-16"
+      },
+      {
+        "_id": 1,
+        "reportNumber": "1",
+        "reporterName": "David",
+        "carNumber": "1가1234",
+        "detectionDate": "2022-08-15",
+        "processingStatus": 0,
+        "location": "경기도 고양시",
+        "transactionId": "추후 수정",
+        "registrationDate": "2022-08-15"
+      }
+    ]
+  }
+}
+
+// http://localhost:3000/admin/reported-detail
+// /admin/fetchReport
+{
+  "status": "success",
+  "message": {
+    "isSuccess": true,
+    "data": {
+      "_id": 3,
+      "reportNumber": "3",
+      "reporterName": "Alex",
+      "carNumber": "3다2345",
+      "detectionDate": "2022-08-10",
+      "processingStatus": 0,
+      "location": "서울시 강남구",
+      "transactionId": "추후 수정",
+      "imageMetadata": "추후 수정",
+      "IPFSaddress": "추후 수정",
+      "registrationDate": "2022-08-14",
+      "counter": 0,
+      "registration": 0,
+      "lastConnection": "2022-08-16"
+    }
+  }
+}

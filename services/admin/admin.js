@@ -1,4 +1,17 @@
-import { adminModel } from "../../models/adminSchema.js";
+import { sequelize } from "../../models/index.js";
+import initModels from "../../models/init-models.js";
+let models = initModels(sequelize);
+
+import { logger } from "../../utils/logger.js";
+
+import {
+  ERROR_MESSAGE,
+  REQ_HEADER,
+  SUCCESS_MESSAGE,
+  HTTP_STATUS_CODE,
+  // HEADER_KEY_TOKEN,
+  MESSAGES,
+} from "../../utils/constants.js";
 
 import * as crypto from "../../utils/crypto.js";
 
@@ -52,12 +65,16 @@ export const checkAdminRecord = async (data) => {
  * @returns {object}
  **/
 export const fetchAdminLoginRecord = async (data) => {
+  let cond = { adminId: data.adminId, password: data.password };
+
+  logger.info("fetchAdminLoginRecord data : " + JSON.stringify(data));
   try {
-    const adminRecord = await adminModel
-      .findOne({ userId: data.userId, password: data.password })
-      .exec();
+    const adminRecord = await models.admin.findOne({
+      where: cond,
+    });
+
     if (!adminRecord) {
-      return { isSuccess: false, data: ERROR_MESSAGE.PHONE_NUMBER_NOT_EXIST };
+      return { isSuccess: false, data: ERROR_MESSAGE.ADMIN_ID_NOT_EXIST };
     } else {
       return { isSuccess: true, data: adminRecord };
     }
@@ -69,9 +86,14 @@ export const fetchAdminLoginRecord = async (data) => {
 
 export const registerAccessLog = async (data) => {
   // Save admin in the database
+
   try {
-    const access = new accessModel(data);
-    const result = await access.save(access);
+    const access = await models.accesslog.create(data);
+    const result = await access.save();
+    // const access = await models.accesslog.update(data, {
+    //   where: { _id: 1 },
+    // });
+    // const result = await models.accesslog.findOne({ where: { _id: 1 } });
     return { isSuccess: true, data: result };
   } catch (err) {
     return { isSuccess: false, data: err };
@@ -84,11 +106,14 @@ export const registerAccessLog = async (data) => {
  * @returns {object}
  **/
 export const updateAdminRecord = async (data) => {
+  let updateData = { lastConnection: data.lastConnection };
+  let cond = { adminId: data.adminId };
+
   try {
-    const adminUpdateRecord = await adminModel.updateOne(
-      { userId: data.userId },
-      { $set: data }
-    );
+    const adminUpdateRecord = await models.admin.update(updateData, {
+      where: cond,
+    });
+
     if (
       adminUpdateRecord.matchedCount == 0 ||
       adminUpdateRecord.modifiedCount == 0

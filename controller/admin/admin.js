@@ -1,6 +1,8 @@
-import emailvalidator from "email-validator";
+import * as EmailValidator from "email-validator";
 
 import * as crypto from "../../utils/crypto.js";
+
+import { logger } from "../../utils/logger.js";
 
 import {
   createJwe,
@@ -57,7 +59,8 @@ export const addAdmin = async (request, response) => {
         .status(HTTP_STATUS_CODE.BAD_REQUEST)
         .json(errorResponse(ERROR_MESSAGE.REQUIRED_PARAMETERS_MISSING));
     }
-    if (!emailvalidator.validate(request.body.email)) {
+    const emailValidator = EmailValidator.validate(request.body.email);
+    if (!emailvalidator) {
       return response
         .status(HTTP_STATUS_CODE.BAD_REQUEST)
         .json(errorResponse(ERROR_MESSAGE.INVALID_INPUT));
@@ -110,18 +113,21 @@ export const addAdmin = async (request, response) => {
 export const login = async (request, response) => {
   try {
     // Check whether input is present or not
-    if (!("userId" in request.body) || !("password" in request.body)) {
+    if (!("adminId" in request.body) || !("password" in request.body)) {
       return response
         .status(HTTP_STATUS_CODE.BAD_REQUEST)
         .json(errorResponse(ERROR_MESSAGE.REQUIRED_PARAMETERS_MISSING));
     }
-    const userId = request.body.userId;
+    const adminId = request.body.adminId;
     const password = request.body.password;
+
     // Hash password
     const hashedPassword = crypto.createHash(password);
+
     // Fetch admin record
-    const data = { userId: userId, password: hashedPassword };
+    const data = { adminId: adminId, password: hashedPassword };
     const fetchAdminResponse = await fetchAdminLoginRecord(data);
+
     if (!fetchAdminResponse.isSuccess) {
       return response
         .status(HTTP_STATUS_CODE.UNAUTHORIZED)
@@ -139,20 +145,24 @@ export const login = async (request, response) => {
         .json(errorResponse("DELETED ADMIN"));
     }
 
+    console.log(fetchAdminResponse);
     // 1. Creating JWE
     const jweResponse = await createJwe({
-      userId: userId,
+      adminId: adminId,
       phoneNumber: fetchAdminResponse.data.phoneNumber,
-      role: fetchAdminResponse.data.role,
+      // 롤은 지금은 주석 처리
+      // role: fetchAdminResponse.data.role,
     });
     if (!jweResponse.isSuccess) {
       return response
         .status(HTTP_STATUS_CODE.INTERNAL_SERVER)
         .json(errorResponse(ERROR_MESSAGE.INTERNAL_SERVER_ERROR));
     }
+
     const jwe = jweResponse.data;
     // 2. Signing JWE
     const token = createJws(jwe);
+
     logger.info(SUCCESS_MESSAGE.LOGIN);
 
     // add accesslog
@@ -164,18 +174,20 @@ export const login = async (request, response) => {
       accessDate: new Date(),
       sessionId: token,
       accessType: "adminLogin",
-      userId: userId,
-      userIP: parseIp(request),
+      adminId: adminId,
+      adminIP: parseIp(request),
     };
+
     const accessLog = await registerAccessLog(accessLogData);
     if (!accessLog.isSuccess) {
       logger.error(accessLog.data.message);
     }
 
     const updateLastConnection = await updateAdminRecord({
-      userId: userId,
+      adminId: adminId,
       lastConnection: new Date(),
     });
+
     if (!updateLastConnection.isSuccess) {
       logger.error(updateLastConnection.data.message);
     }

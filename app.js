@@ -1,5 +1,6 @@
 import createError from "http-errors";
 import express from "express";
+import session from "express-session";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -9,6 +10,7 @@ const __dirname = path.dirname(__filename);
 import morgan from "morgan";
 
 import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
 
 import { indexRouter } from "./routes/index.js";
 import { apiRouter } from "./routes/api.js";
@@ -27,12 +29,37 @@ app.set("view engine", "ejs");
 const PORT = 5000;
 app.set("port", process.env.PORT || PORT);
 
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
+
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// req.session 객체 생성
+const sessionOption = {
+  resave: false,
+  saveUninitialized: false,
+  secret: process.env.COOKIE_SECRET,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+  },
+  // redis저장 설정
+  // store: new RedisStore({ client: redisClient }),
+};
+if (process.env.NODE_ENV === "production") {
+  sessionOption.proxy = true;
+  // sessionOption.cookie.secure = true;
+}
+app.use(session(sessionOption));
 
 app.use("/", indexRouter); // Using in Citylabs Cloud Admin Site
 app.use("/api", apiRouter); // Using in Others Project Site
@@ -58,3 +85,5 @@ app.use(function (err, req, res, next) {
 app.listen(app.get("port"), () =>
   console.log(`Listening on port ${app.get("port")}`)
 );
+
+export default app;

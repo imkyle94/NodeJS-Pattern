@@ -1,0 +1,26 @@
+{
+  "status": "success",
+  "message": {
+    "isSuccess": true,
+    "data": [
+      {
+        "_id": 3,
+        "reportNumber": "3",
+        "reporterName": "Alex",
+        "carNumber": "3다2345",
+        "detectionDate": "2021-10-01T03:30:08.000Z",
+        "processingStatus": 0,
+        "obuId": "OBU-46101929",
+        "location": "서울시 강남구",
+        "lat": "33.436",
+        "long": "126.918",
+        "transactionId": "추후 수정",
+        "imageMetadata": "추후 수정",
+        "registrationDate": "2022-08-14T00:00:00.000Z",
+        "counter": 0,
+        "registration": 0,
+        "lastConnection": "2022-08-16T00:00:00.000Z"
+      }
+    ]
+  }
+}

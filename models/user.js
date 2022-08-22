@@ -1,7 +1,7 @@
 import _sequelize from "sequelize";
 const { Model, Sequelize } = _sequelize;
 
-export default class admin extends Model {
+export default class user extends Model {
   static init(sequelize, DataTypes) {
     return super.init(
       {
@@ -11,7 +11,40 @@ export default class admin extends Model {
           allowNull: false,
           primaryKey: true,
         },
-        adminId: {
+        userId: {
+          type: DataTypes.STRING(50),
+          allowNull: false,
+          defaultValue: "8888",
+        },
+        phoneNumber: {
+          type: DataTypes.STRING(50),
+          allowNull: true,
+        },
+        email: {
+          type: DataTypes.STRING(50),
+          allowNull: true,
+        },
+        address: {
+          type: DataTypes.STRING(50),
+          allowNull: true,
+        },
+        gender: {
+          type: DataTypes.STRING(50),
+          allowNull: true,
+        },
+        importedService: {
+          type: DataTypes.STRING(50),
+          allowNull: true,
+        },
+        servicePlatform: {
+          type: DataTypes.STRING(50),
+          allowNull: true,
+        },
+        age: {
+          type: DataTypes.INTEGER,
+          allowNull: true,
+        },
+        dob: {
           type: DataTypes.STRING(50),
           allowNull: true,
         },
@@ -19,20 +52,16 @@ export default class admin extends Model {
           type: DataTypes.STRING(50),
           allowNull: true,
         },
-        phoneNumber: {
-          type: DataTypes.STRING(50),
-          allowNull: true,
-        },
         name: {
           type: DataTypes.STRING(50),
           allowNull: true,
         },
-        counter: {
+        registration: {
           type: DataTypes.INTEGER,
           allowNull: true,
-          defaultValue: 0,
+          defaultValue: 2,
         },
-        registration: {
+        counter: {
           type: DataTypes.INTEGER,
           allowNull: true,
         },
@@ -43,7 +72,7 @@ export default class admin extends Model {
       },
       {
         sequelize,
-        tableName: "admin",
+        tableName: "user",
         timestamps: false,
         indexes: [
           {

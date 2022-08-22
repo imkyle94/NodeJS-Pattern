@@ -1,7 +1,7 @@
 import _sequelize from "sequelize";
 const { Model, Sequelize } = _sequelize;
 
-export default class admin extends Model {
+export default class accesslog extends Model {
   static init(sequelize, DataTypes) {
     return super.init(
       {
@@ -11,39 +11,42 @@ export default class admin extends Model {
           allowNull: false,
           primaryKey: true,
         },
+        accessDate: {
+          type: DataTypes.DATEONLY,
+          allowNull: true,
+        },
+        accessTime: {
+          type: DataTypes.TIME,
+          allowNull: true,
+        },
+        sessionId: {
+          type: DataTypes.STRING(1000),
+          allowNull: true,
+        },
+        accessType: {
+          type: DataTypes.STRING(50),
+          allowNull: true,
+        },
         adminId: {
           type: DataTypes.STRING(50),
           allowNull: true,
         },
-        password: {
+        userId: {
           type: DataTypes.STRING(50),
           allowNull: true,
         },
-        phoneNumber: {
+        endDate: {
           type: DataTypes.STRING(50),
           allowNull: true,
         },
-        name: {
+        userIP: {
           type: DataTypes.STRING(50),
-          allowNull: true,
-        },
-        counter: {
-          type: DataTypes.INTEGER,
-          allowNull: true,
-          defaultValue: 0,
-        },
-        registration: {
-          type: DataTypes.INTEGER,
-          allowNull: true,
-        },
-        lastConnection: {
-          type: DataTypes.DATE,
           allowNull: true,
         },
       },
       {
         sequelize,
-        tableName: "admin",
+        tableName: "accesslog",
         timestamps: false,
         indexes: [
           {

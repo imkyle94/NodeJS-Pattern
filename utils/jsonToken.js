@@ -18,6 +18,7 @@ const createJwe = async (data) => {
     const jwe = await jose.JWE.createEncrypt(key)
       .update(JSON.stringify(data))
       .final();
+
     return { isSuccess: true, data: jwe };
   } catch (err) {
     return { isSuccess: false, data: err };

@@ -66,6 +66,7 @@ const ERROR_MESSAGE = {
   LOGINCHECK_FAILED: "Try Again!",
   LOGIN_AGAIN: "Please login",
   PHONE_NUMBER_NOT_EXIST: "Entered Contact number does not exist",
+  ADMIN_ID_NOT_EXIST: "Entered Admin Id does not exist",
   FETCH_CARD_DETAILS: "Failed to fetch card details",
   FETCH_PAYMENT_DETAILS: "Failed to fetch payment hisory details",
   REGISTERING_PAYMENT_CARD: "Failed to register card",
@@ -122,6 +123,9 @@ const ERROR_MESSAGE = {
   ERROR_UPDATE_SUPPLIER_INFO: "ERROR updating Supplier Information!",
   INVALID_FILE: "Not a pdf. Only pdf can be uploaded.",
   NO_PERMISSION_TO_ACCESS: "YOU HAVE NOT PERMISSION TO ACCESS",
+  // 74
+  REPORT_NUMBER_NOT_EXIST: "Entered Report number does not exist",
+  FETCHING_REPORT_ERROR: "Error in report record fetch",
 };
 
 // SUCCESS MESSAGE CONSTANTS
